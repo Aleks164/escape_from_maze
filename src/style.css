@@ -1,3 +1,20 @@
 body {
-    background-color: black;
+  background-color: black;
+  color: white;
+}
+.mazeContainer {
+  display: block;
+}
+
+.mazeRow {
+  display: grid;
+  grid-template: repeat(3, 25px);
+}
+
+#nextStepButton {
+  display: block;
+  width: 100px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }

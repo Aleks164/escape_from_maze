@@ -15,5 +15,5 @@ export function getStartPosition(arr: string[]) {
     }
   }
 
-  return { startPosition: [startY, startX], startDirection };
+  return { startPosition: [startY, startX] as [number,number], startDirection };
 }
