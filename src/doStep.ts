@@ -7,10 +7,26 @@ export function doStep(
   y: number,
   x: number
 ) {
-  let check = checkAround(y, x, arr);
-  console.log("check", check);
-  let [nextY, nextX] = check[0];
-  let { nextDirection, resultLOg } = getNextStepDirection(
+  const check = checkAround(y, x, arr);
+  if (!check.length)
+    return {
+      nextStep: [],
+      nextDirection: "",
+      resultLOg: [],
+    };
+  const [nextY, nextX] = check[0];
+  if (
+    nextX === arr[0].length - 1 ||
+    nextY === arr.length - 1 ||
+    nextY === 0 ||
+    nextX === 0
+  )
+    return {
+      nextStep: "Finish",
+      nextDirection: "",
+      resultLOg: [],
+    };
+  const { nextDirection, resultLOg } = getNextStepDirection(
     [y, x],
     [nextY, nextX],
     curDirecation
@@ -18,6 +34,6 @@ export function doStep(
   return {
     nextStep: check,
     nextDirection,
-    resultLOg
+    resultLOg,
   };
 }

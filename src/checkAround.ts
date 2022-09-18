@@ -1,6 +1,5 @@
 export function checkAround(y: number, x: number, arr: string[]) {
   function splitter(string: number, coloumn: number, nextDirection: string) {
-    console.log("next");
     const newRow = arr[string].split("");
     newRow[coloumn] = nextDirection;
     arr[string] = newRow.join("");
@@ -24,6 +23,5 @@ export function checkAround(y: number, x: number, arr: string[]) {
     emptyWay.push([y, x - 1]);
     splitter(y, x - 1, "<");
   }
-  console.log("emptyWay");
   return emptyWay;
 }

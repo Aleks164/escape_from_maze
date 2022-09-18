@@ -1,63 +1,67 @@
 import { getStartPosition } from "./getStartPosition";
 import { doStep } from "./doStep";
 import { defaultArr } from "./defaultArr";
+import { getMazeMarkup } from "./getMazeMarkup";
+import { finishPicture } from "./finishPicture";
 import "./style.css";
 
-let arr = defaultArr;
-let startPosition:[number,number] = [0, 0];
+let intId: NodeJS.Timer;
+const arr = defaultArr;
+let startPosition: [number, number] = [0, 0];
 let startDirection = "";
-let trueWay:string[] =[];
-let currentWay:string[]=[];
-let listOfCrosses:[number,number][]=[];
-let mazeEl = document.getElementById("maze");
-let mazeContent = `<div class="mazeContainer">${arr.map(row=>`<div class="mazeRow" style="grid-template-columns: repeat(${
-    arr[0].length},10px); ">${row.split("").map(el=>`<div>${el?el:"."}</div>`).join("")}</div>`).join("")}</div>`;
-if(mazeEl) mazeEl.innerHTML = mazeContent;
+let trueWay: string[] = [];
+let currentWay: string[] = [];
+let listOfCrosses: [number, number][] = [];
+const mazeEl = document.getElementById("maze");
+const fullWay = document.getElementById("fullWay");
+const curWay = document.getElementById("curWay");
+let mazeContent = getMazeMarkup(arr);
+if (mazeEl) mazeEl.innerHTML = mazeContent;
 
-  let startParam = getStartPosition(arr);
-  startPosition = startParam.startPosition;
-  startDirection = startParam.startDirection;
+const startParam = getStartPosition(arr);
+startPosition = startParam.startPosition;
+startDirection = startParam.startDirection;
 
-function makeOneStep(){
-  let { nextStep, nextDirection, resultLOg } = doStep(
+function makeOneStep() {
+  const { nextStep, nextDirection, resultLOg } = doStep(
     arr,
     startDirection,
     startPosition[0],
     startPosition[1]
   );
-  currentWay= currentWay.concat(resultLOg);
-  if(nextStep.length>1){
-      let restCrosses = nextStep.slice(1,nextStep.length-1);
-      listOfCrosses.concat(restCrosses);
-      trueWay=trueWay.concat(currentWay);
-      currentWay = [];      
-  }  
-  if(nextStep.length){
-      startPosition=nextStep[0];
-startDirection=nextDirection; 
+  if (nextStep === "Finish") {
+    mazeContent = getMazeMarkup(finishPicture);
+    if (mazeEl) mazeEl.innerHTML = mazeContent;
+    clearInterval(intId);
+    return;
   }
-  else{
-     let crossing = listOfCrosses.shift();
-      if(crossing){
-         startPosition=crossing;
-        startDirection=arr[crossing[0]][crossing[1]];  
-      }
-     
+  currentWay = currentWay.concat(resultLOg);
+  if (nextStep.length > 1 && typeof nextStep !== "string") {
+    const restCrosses = nextStep.splice(1, nextStep.length - 1);
+    listOfCrosses = listOfCrosses.concat(restCrosses);
+    trueWay = trueWay.concat(currentWay);
+    currentWay = [];
   }
+  if (nextStep.length) {
+    // eslint-disable-next-line prefer-destructuring
+    startPosition = nextStep[0] as [number, number];
+    startDirection = nextDirection;
+  } else {
+    const crossing = listOfCrosses.shift();
+    if (crossing) {
+      startPosition = crossing;
+      startDirection = arr[crossing[0]][crossing[1]];
+    }
+  }
+  mazeContent = getMazeMarkup(arr);
+  if (mazeEl) mazeEl.innerHTML = mazeContent;
+  if (fullWay) fullWay.innerHTML = `<div>${trueWay.join(" ")}</div>}`;
+  if (curWay) curWay.innerHTML = `<div>${currentWay.join(" ")}</div>}`;
+}
 
-console.log("step")
-mazeContent = `<div class="mazeContainer">${arr.map(row=>`<div class="mazeRow" style="grid-template-columns: repeat(${
-    arr[0].length},10px); ">${row.split("").map(el=>`<div>${el?el:"."}</div>`).join("")}</div>`).join("")}</div>`;
-if(mazeEl) mazeEl.innerHTML = mazeContent;
-};
+const nextStepButton = document.getElementById("nextStepButton");
+if (nextStepButton) nextStepButton.addEventListener("click", makeOneStep);
 
-let nextStepButton = document.getElementById("nextStepButton");
-if(nextStepButton)
-nextStepButton.addEventListener("click",makeOneStep);
-
-// setInterval(()=>{
-//     makeOneStep();
-// },150)
-
-
-
+intId = setInterval(() => {
+  makeOneStep();
+}, 100);

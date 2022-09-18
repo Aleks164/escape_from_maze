@@ -2,7 +2,7 @@ export function mekeRightDirection(
   curDirection: string,
   nextDirection: string
 ) {
-  let turmLog = [];
+  const turmLog = [];
   if (curDirection !== nextDirection) {
     if (curDirection === ">") {
       if (nextDirection === "<") turmLog.push("B");
