@@ -15,6 +15,12 @@ export function doStep(
       resultLOg: [],
     };
   const [nextY, nextX] = check[0];
+  
+  const { nextDirection, resultLOg } = getNextStepDirection(
+    [y, x],
+    [nextY, nextX],
+    curDirecation
+  );
   if (
     nextX === arr[0].length - 1 ||
     nextY === arr.length - 1 ||
@@ -24,13 +30,8 @@ export function doStep(
     return {
       nextStep: "Finish",
       nextDirection: "",
-      resultLOg: [],
+      resultLOg,
     };
-  const { nextDirection, resultLOg } = getNextStepDirection(
-    [y, x],
-    [nextY, nextX],
-    curDirecation
-  );
   return {
     nextStep: check,
     nextDirection,
