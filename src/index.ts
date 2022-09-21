@@ -8,25 +8,32 @@ import { calcShortWay } from "./calcShortWay";
 import "./style.css";
 
 export type CrossesItemType = {
-    [key:string]: {
-        way: string[];
-        from: null|string;
-        coordLog:[number,number][];
-    };
-}
+  [key: string]: {
+    way: string[];
+    from: null | string;
+    coordLog: [number, number][];
+  };
+};
 let intId: NodeJS.Timer;
 
 const arr = defaultArr;
 let startPosition: [number, number] = [0, 0];
 let startDirection = "";
-let curCoordList: [number,number][] = [];
+let curCoordList: [number, number][] = [];
 let currentWay: string[] = [];
 let listOfCrosses: [number, number][] = [];
-let crossingsParamArray: CrossesItemType[] = [{start:{way:[],
-from:null,coordLog:[]}}];
+const crossingsParamArray: CrossesItemType[] = [
+  {
+    start: {
+      way: [],
+      from: null,
+      coordLog: [],
+    },
+  },
+];
 let prev = "start";
 const mazeEl = document.getElementById("maze");
-const fullWay = document.getElementById("fullWay");
+// const fullWay = document.getElementById("fullWay");
 const curWay = document.getElementById("curWay");
 let mazeContent = getMazeMarkup(arr);
 if (mazeEl) mazeEl.innerHTML = mazeContent;
@@ -43,31 +50,49 @@ function makeOneStep() {
     startPosition[1]
   );
   if (nextStep === "Finish") {
-      currentWay = currentWay.concat(resultLOg);
-      curCoordList.push([startPosition[0], startPosition[1]]);
-    crossingsParamArray.push({[startPosition.toString()]:{way:currentWay,
-    from:prev,coordLog:curCoordList}});
-    
-    mazeContent = getMazeMarkup(finishPicture);
-    if (mazeEl) mazeEl.innerHTML = mazeContent;
-    clearInterval(intId);
-    setTimeout(()=>{
-        mazeContent = getMazeMarkup(defaultArr);
-         if (mazeEl) mazeEl.innerHTML = mazeContent;
-    },1500);
+    currentWay = currentWay.concat(resultLOg);
+    curCoordList.push([startPosition[0], startPosition[1]]);
+    crossingsParamArray.push({
+      [startPosition.toString()]: {
+        way: currentWay,
+        from: prev,
+        coordLog: curCoordList,
+      },
+    });
 
- console.log("result way", calcShortWay(crossingsParamArray));
- 
+    // mazeContent = getMazeMarkup(finishPicture);
+    // if (mazeEl) mazeEl.innerHTML = mazeContent;
+    clearInterval(intId);
+    // setTimeout(() => {
+    // mazeContent = getMazeMarkup(defaultArr);
+    // if (mazeEl) mazeEl.innerHTML = mazeContent;
+
+    //   calcShortWay(crossingsParamArray).forEach(([y, x]) => {
+    //     const row = defaultArr[y].split("");
+    //     row[x] = "*";
+    //     defaultArr[y] = row.join("");
+    //     mazeContent = getMazeMarkup(defaultArr);
+    //     if (mazeEl) mazeEl.innerHTML = mazeContent;
+    //   })
+    // }, 1500);
+
+    console.log("result way", crossingsParamArray);
+
     return;
   }
   if (nextStep.length > 1 && typeof nextStep !== "string") {
     const restCrosses = nextStep.splice(1, nextStep.length - 1);
     listOfCrosses = listOfCrosses.concat(restCrosses);
-    crossingsParamArray.push({[startPosition.toString()]:{way:currentWay,
-    from:prev, coordLog:curCoordList}})   
+    crossingsParamArray.push({
+      [startPosition.toString()]: {
+        way: currentWay,
+        from: prev,
+        coordLog: curCoordList,
+      },
+    });
     currentWay = [];
-    curCoordList =[];
-    prev = startPosition.toString();   
+    curCoordList = [];
+    prev = startPosition.toString();
   }
   currentWay = currentWay.concat(resultLOg);
   curCoordList.push([startPosition[0], startPosition[1]]);
@@ -80,8 +105,8 @@ function makeOneStep() {
     if (crossing) {
       startPosition = crossing;
       startDirection = arr[crossing[0]][crossing[1]];
-      prev = calcCrossCoord(startDirection,startPosition).toString();   
-    curCoordList = [[crossing[0],crossing[1]]]
+      prev = calcCrossCoord(startDirection, startPosition).toString();
+      curCoordList = [[crossing[0], crossing[1]]];
     }
     currentWay = [startDirection];
   }
@@ -90,8 +115,8 @@ function makeOneStep() {
   // if (fullWay) fullWay.innerHTML = `<div>${trueWay.join(" ")}</div>}`;
   if (curWay) curWay.innerHTML = `<div>${currentWay.join(" ")}</div>}`;
   // if (curWay) curWay.innerHTML = `<div>${JSON.stringify(crossingsParamArray,null," ")}</div>}`;
-//  console.log(startPosition[0],startPosition[1]);
- }
+  //  console.log(startPosition[0],startPosition[1]);
+}
 
 const nextStepButton = document.getElementById("nextStepButton");
 if (nextStepButton) nextStepButton.addEventListener("click", makeOneStep);
@@ -99,4 +124,3 @@ if (nextStepButton) nextStepButton.addEventListener("click", makeOneStep);
 intId = setInterval(() => {
   makeOneStep();
 }, 100);
-
