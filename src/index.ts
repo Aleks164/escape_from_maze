@@ -2,7 +2,6 @@ import { getStartPosition } from "./getStartPosition";
 import { doStep } from "./doStep";
 import { defaultArr } from "./defaultArr";
 import { getMazeMarkup } from "./getMazeMarkup";
-import { finishPicture } from "./finishPicture";
 import { calcCrossCoord } from "./calcCrossCoord";
 import { calcShortWay } from "./calcShortWay";
 import "./style.css";
@@ -11,22 +10,21 @@ export type CrossesItemType = {
     [key:string]: {
         way: string[];
         from: null|string;
-        coordLog:[number,number][];
+        coord:[number,number][];
     };
 }
 let intId: NodeJS.Timer;
 
-const arr = defaultArr;
+const arr = defaultArr.slice();
 let startPosition: [number, number] = [0, 0];
 let startDirection = "";
-let curCoordList: [number,number][] = [];
+let coordList: [number, number][] = [];
 let currentWay: string[] = [];
 let listOfCrosses: [number, number][] = [];
 let crossingsParamArray: CrossesItemType[] = [{start:{way:[],
-from:null,coordLog:[]}}];
+from:null,coord:[]}}];
 let prev = "start";
 const mazeEl = document.getElementById("maze");
-const fullWay = document.getElementById("fullWay");
 const curWay = document.getElementById("curWay");
 let mazeContent = getMazeMarkup(arr);
 if (mazeEl) mazeEl.innerHTML = mazeContent;
@@ -36,67 +34,75 @@ startPosition = startParam.startPosition;
 startDirection = startParam.startDirection;
 
 function makeOneStep() {
+ 
   const { nextStep, nextDirection, resultLOg } = doStep(
     arr,
     startDirection,
     startPosition[0],
     startPosition[1]
   );
-  if (nextStep === "Finish") {
-      currentWay = currentWay.concat(resultLOg);
-      curCoordList.push([startPosition[0], startPosition[1]]);
-    crossingsParamArray.push({[startPosition.toString()]:{way:currentWay,
-    from:prev,coordLog:curCoordList}});
-    
-    mazeContent = getMazeMarkup(finishPicture);
-    if (mazeEl) mazeEl.innerHTML = mazeContent;
-    clearInterval(intId);
-    setTimeout(()=>{
-        mazeContent = getMazeMarkup(defaultArr);
-         if (mazeEl) mazeEl.innerHTML = mazeContent;
-    },1500);
-
- console.log("result way", calcShortWay(crossingsParamArray));
- 
-    return;
-  }
   if (nextStep.length > 1 && typeof nextStep !== "string") {
+    coordList.push([ startPosition[0],
+    startPosition[1]]);
     const restCrosses = nextStep.splice(1, nextStep.length - 1);
     listOfCrosses = listOfCrosses.concat(restCrosses);
     crossingsParamArray.push({[startPosition.toString()]:{way:currentWay,
-    from:prev, coordLog:curCoordList}})   
+    from:prev, coord: coordList}})
     currentWay = [];
-    curCoordList =[];
+    coordList = [];    
     prev = startPosition.toString();   
   }
   currentWay = currentWay.concat(resultLOg);
-  curCoordList.push([startPosition[0], startPosition[1]]);
+  if ( startPosition[1] === arr[0].length - 1 ||
+    startPosition[0] === arr.length - 1 ||
+    startPosition[0] === 0 ||
+    startPosition[1] === 0) {
+      currentWay = currentWay.concat(resultLOg);
+     coordList.push([ startPosition[0],
+    startPosition[1]]);
+    crossingsParamArray.push({[startPosition.toString()]:{way:currentWay,
+    from:prev,coord:coordList}});
+    
+    clearInterval(intId);
+      const rightWay = calcShortWay(crossingsParamArray);
+      let trueWayId = setInterval(()=>{
+        if(!rightWay.length) clearInterval(trueWayId);
+           const [y,x] = rightWay.shift() as [number,number];
+        const newRow = defaultArr[y].split("");
+      newRow[x] = "*";
+      defaultArr[y]= newRow.join("");
+       mazeContent = getMazeMarkup(defaultArr);
+         if (mazeEl) mazeEl.innerHTML = mazeContent;                                                 
+      },150);
+    return;
+  }
   if (nextStep.length) {
-    // eslint-disable-next-line prefer-destructuring
+     coordList.push([ startPosition[0],
+    startPosition[1]]);
     startPosition = nextStep[0] as [number, number];
     startDirection = nextDirection;
+    
   } else {
     const crossing = listOfCrosses.shift();
+    coordList =[];
     if (crossing) {
       startPosition = crossing;
       startDirection = arr[crossing[0]][crossing[1]];
-      prev = calcCrossCoord(startDirection,startPosition).toString();   
-    curCoordList = [[crossing[0],crossing[1]]]
+      prev = calcCrossCoord(startDirection,startPosition).toString(); 
     }
     currentWay = [startDirection];
   }
   mazeContent = getMazeMarkup(arr);
   if (mazeEl) mazeEl.innerHTML = mazeContent;
-  // if (fullWay) fullWay.innerHTML = `<div>${trueWay.join(" ")}</div>}`;
-  if (curWay) curWay.innerHTML = `<div>${currentWay.join(" ")}</div>}`;
-  // if (curWay) curWay.innerHTML = `<div>${JSON.stringify(crossingsParamArray,null," ")}</div>}`;
-//  console.log(startPosition[0],startPosition[1]);
- }
+  if (curWay) curWay.innerHTML = `<div>${coordList.join(" ")}</div>`;
+}
 
-const nextStepButton = document.getElementById("nextStepButton");
-if (nextStepButton) nextStepButton.addEventListener("click", makeOneStep);
-
-intId = setInterval(() => {
+const nextStepButton = document.getElementById("nextStepButton") as HTMLButtonElement;
+nextStepButton.addEventListener("click",()=> {
+  nextStepButton.disabled = true;
+  intId = setInterval(() => {
   makeOneStep();
 }, 100);
+nextStepButton.disabled = false;
+});
 
