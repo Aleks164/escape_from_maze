@@ -7,7 +7,9 @@ export function calcShortWay(crossesList: CrossesItemType[]) {
   let prevStepLog = lastStep[lastStepKey].coord;
   const resultLog = [...prevStepLog];
   while (prevStepName) {
-    lastStep = crossesList.find(item => item[prevStepName!]) as CrossesItemType;
+    lastStep = crossesList.find(
+      (item) => item[prevStepName!]
+    ) as CrossesItemType;
     lastStepKey = Object.keys(lastStep)[0];
     prevStepName = lastStep[lastStepKey].from;
     prevStepLog = lastStep[lastStepKey].coord;

@@ -8,7 +8,7 @@ body {
 
 .mazeRow {
   display: grid;
-  grid-template: repeat(3, 25px);
+  /* grid-template: repeat(3, 25px); */
 }
 
 #nextStepButton {

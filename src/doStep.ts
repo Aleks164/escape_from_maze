@@ -7,7 +7,6 @@ export function doStep(
   y: number,
   x: number
 ) {
-    
   const check = checkAround(y, x, arr);
   if (!check.length)
     return {
@@ -20,7 +19,7 @@ export function doStep(
     [y, x],
     [nextY, nextX],
     curDirecation
-  );     
+  );
   return {
     nextStep: check,
     nextDirection,
