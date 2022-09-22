@@ -3,12 +3,12 @@ export function getNextStepDirection(
   NextPosition: [number, number],
   curDirection: string
 ) {
-  let resultLOg: string[] = [];
+  const resultLOg: string[] = [];
   let nextDirection = "";
-  if (curPosition[0] > NextPosition[0]) nextDirection = "^"; //top
-  if (curPosition[0] < NextPosition[0]) nextDirection = "v"; //bottom
-  if (curPosition[1] > NextPosition[1]) nextDirection = "<"; //left
-  if (curPosition[1] < NextPosition[1]) nextDirection = ">"; //right
+  if (curPosition[0] > NextPosition[0]) nextDirection = "^"; // top
+  if (curPosition[0] < NextPosition[0]) nextDirection = "v"; // bottom
+  if (curPosition[1] > NextPosition[1]) nextDirection = "<"; // left
+  if (curPosition[1] < NextPosition[1]) nextDirection = ">"; // right
 
   if (curDirection === nextDirection) resultLOg.push("F");
   else if (curDirection === ">") {
