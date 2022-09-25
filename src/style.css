@@ -2,6 +2,7 @@ body {
   background-color: black;
   color: white;
 }
+
 .mazeContainer {
   display: block;
 }
@@ -11,10 +12,26 @@ body {
   /* grid-template: repeat(3, 25px); */
 }
 
+.panel {
+  display: grid;
+  grid-template-columns: min-content auto;
+}
+
+/* #maze {
+  width: 60%;
+} */
+
+#setPanel * {
+  display: block;
+  margin: 25px;
+}
+
 #nextStepButton {
   display: block;
   width: 100px;
   margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
+}
+
+#curWayCont {
+  margin: 25px;
 }

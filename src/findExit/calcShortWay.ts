@@ -1,3 +1,5 @@
+/* eslint-disable no-loop-func */
+/* eslint-disable prefer-destructuring */
 import { CrossesItemType } from "./index";
 
 export function calcShortWay(crossesList: CrossesItemType[]) {

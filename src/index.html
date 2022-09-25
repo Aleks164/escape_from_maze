@@ -1,21 +1,35 @@
 <html>
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+  </head>
 
-<head>
-  <title></title>
-  <meta charset="UTF-8" />
-</head>
-
-<body>
-  <!-- <div class="panel">
+  <body>
+    <div class="panel">
       <div id="maze"></div>
-      <button id="nextStepButton">Start</button>
+      <div id="setPanel">
+        <div id="currenSize"></div>
+        <label
+          >width<input id="width" type="number" min="5" max="100" value="5"
+        /></label>
+        <label
+          >heigth<input id="heigth" type="number" min="5" max="100" value="7"
+        /></label>
+        <label
+          >step delay<input
+            id="speed"
+            type="range"
+            min="0"
+            max="200"
+            value="50"
+        /></label>
+        <button id="generateNewMaze">Generate new maze</button>
+        <button id="nextStepButton">Start</button>
+      </div>
     </div>
-    <div>
+    <div id="curWayCont">
       curWay:
       <div id="curWay"></div>
-    </div> -->
-  <div id="newMaze"></div>
-  <script src="./newMaze.ts"></script>
-</body>
-
+    </div>
+  </body>
 </html>
