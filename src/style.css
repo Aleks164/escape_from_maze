@@ -1,3 +1,6 @@
+* {
+  user-select: none;
+}
 body {
   background-color: black;
   color: white;
@@ -9,17 +12,12 @@ body {
 
 .mazeRow {
   display: grid;
-  /* grid-template: repeat(3, 25px); */
 }
 
 .panel {
   display: grid;
   grid-template-columns: min-content auto;
 }
-
-/* #maze {
-  width: 60%;
-} */
 
 #setPanel * {
   display: block;
@@ -34,4 +32,21 @@ body {
 
 #curWayCont {
   margin: 25px;
+}
+
+.shortWayColor {
+  color: blue;
+  background-color: blue;
+}
+
+.wall {
+  color: rgb(75, 146, 76);
+  text-align: center;
+}
+
+.steps {
+  color: rgb(255, 255, 255);
+}
+.empty {
+  background-color: rgb(24, 24, 24);
 }

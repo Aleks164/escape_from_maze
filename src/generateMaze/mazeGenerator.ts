@@ -1,4 +1,4 @@
-import { brakeNaighborWall } from "./brakeNaighborWall";
+import { brakeNaighborWall } from "./breakNaighborWall";
 import { getNextCellCoord } from "./getNextCellCoord";
 import { getEmptyNeighbor } from "./getEmptyNeighbor";
 import { getRandomBorderPosition } from "./getRandomBorderPosition";

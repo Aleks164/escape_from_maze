@@ -3,6 +3,7 @@ import "./style.css";
 
 const inputHeigth = <HTMLInputElement>document.getElementById("heigth");
 const inputWidth = <HTMLInputElement>document.getElementById("width");
+
 const generateNewMaze = <HTMLButtonElement>(
   document.getElementById("generateNewMaze")
 );
