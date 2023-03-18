@@ -1,3 +1,5 @@
+import { getItemClass } from "./getItemClass";
+
 export function getMazeMarkup(arr: string[]) {
   return `<div class="mazeRow"><div class="mazeRow" style="grid-template-columns: repeat(${
     arr[0].length + 1
@@ -21,7 +23,7 @@ export function getMazeMarkup(arr: string[]) {
           .split("")
           .map((el, coloumnNumber) => {
             let numbers = "";
-            if (coloumnNumber == 0)
+            if (coloumnNumber === 0)
               numbers = `<div class=${getItemClass("horizontal")}>${
                 rowNumber + 1
               }</div>`;
@@ -32,29 +34,4 @@ export function getMazeMarkup(arr: string[]) {
           .join("")}</div>`
     )
     .join("")}</div>`;
-}
-
-function getItemClass(item: string) {
-  switch (item) {
-    case "#": {
-      return "wall";
-    }
-    case "*": {
-      return "shortWayColor";
-    }
-    case ">":
-    case "<":
-    case "v":
-    case "^": {
-      return "steps";
-    }
-    case "horizontal": {
-      return "horizontal";
-    }
-    case "vertical": {
-      return "vertical";
-    }
-    default:
-      return "empty";
-  }
 }

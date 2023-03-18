@@ -1,24 +1,39 @@
-import { startNewMazeEscaping } from "./findExit";
+import { makeOneStep } from "./findExit";
+import { drawNewMaze } from "./findExit/drawNewMaze";
+import { getNewMazeParams } from "./findExit/getNewMazeParams";
+import { createMazePatternBySize } from "./generateMaze/createMazePatternBySize";
+import { mazeGenerator } from "./generateMaze/mazeGenerator";
 import "./style.css";
 
 const inputHeigth = <HTMLInputElement>document.getElementById("heigth");
 const inputWidth = <HTMLInputElement>document.getElementById("width");
-
-const generateNewMaze = <HTMLButtonElement>(
+const nextStepButton = <HTMLButtonElement>(
+  document.getElementById("nextStepButton")
+);
+const generateNewMazeButton = <HTMLButtonElement>(
   document.getElementById("generateNewMaze")
 );
-const currenSize = <HTMLDivElement>document.getElementById("currenSize");
+const currenSizeButton = <HTMLDivElement>document.getElementById("currenSize");
+const mazeContainer = <HTMLDivElement>document.getElementById("maze");
 
-let height = +inputHeigth.value;
-let width = +inputWidth.value;
-currenSize.innerHTML = `height: ${height} x width: ${width}`;
-startNewMazeEscaping(height, width);
+const height = +inputHeigth.value;
+const width = +inputWidth.value;
+const { newMaze, mazeMarkup } = getNewMazeParams(height, width);
+if (mazeContainer) mazeContainer.innerHTML = mazeMarkup;
 
-function changeSize() {
-  height = +inputHeigth.value;
-  width = +inputWidth.value;
-  startNewMazeEscaping(height, width);
-  currenSize.innerHTML = `height: ${height} x width: ${width}`;
-}
+currenSizeButton.innerHTML = `height: ${height} x width: ${width}`;
 
-generateNewMaze.addEventListener("click", changeSize);
+generateNewMazeButton.addEventListener("click", () => {
+  const mazeParams = getNewMazeParams(height, width);
+  drawNewMaze(mazeContainer, mazeParams.mazeMarkup);
+  newMaze = mazeParams.newMaze;
+});
+
+nextStepButton.addEventListener("click", () => {
+  nextStepButton.disabled = true;
+  let isEscaped = false;
+  while (!isEscaped) {
+    isEscaped = makeOneStep(newMaze);
+  }
+  nextStepButton.disabled = false;
+});

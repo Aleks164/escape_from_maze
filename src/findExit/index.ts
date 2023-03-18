@@ -1,59 +1,27 @@
-import { getStartPosition } from "./getStartPosition";
 import { doStep } from "./doStep";
 import { getMazeMarkup } from "./getMazeMarkup";
 import { calcCrossCoord } from "./calcCrossCoord";
-import { calcShortWay } from "./calcShortWay";
-import { createMazePatternBySize } from "../generateMaze/createMazePatternBySize";
-import { mazeGenerator } from "../generateMaze/mazeGenerator";
+import { drawShortWay } from "./drawShortWay";
+import { CoordType, CrossesItemType, MapType } from "../types";
+import { getStartParams } from "./getStartParams";
 
-export type CoordType = [number, number];
-export type MapType = string[];
-
-export type CrossesItemType = {
-  [key: string]: {
-    way: string[];
-    from: null | string;
-    coord: CoordType[];
-  };
-};
 let startMaze: MapType;
 let mazeMap: MapType;
-let startPosition: CoordType;
-let startDirection: string;
-let coordList: CoordType[];
-let currentWay: string[];
-let listOfCrosses: CoordType[];
-let crossingsParamArray: CrossesItemType[];
-let prev: string;
+// let startPosition: CoordType;
+// let startDirection: string;
+// let coordList: CoordType[];
+// let currentWay: string[];
+// let listOfCrosses: CoordType[];
+// let crossingsParamArray: CrossesItemType[];
+// let prev: string;
 let mazeContent: string;
 let isEscaped: boolean;
-const mazeEl = document.getElementById("maze");
-resetStartParams();
+getStartParams();
 
-function resetStartParams() {
-  startPosition;
-  startDirection;
-  coordList = [];
-  currentWay = [];
-  listOfCrosses = [];
-  crossingsParamArray = [{ start: { way: [], from: null, coord: [] } }];
-  prev = "start";
-  isEscaped = false;
-}
-
-export function startNewMazeEscaping(hight: number, weight: number) {
-  resetStartParams();
-  startMaze = mazeGenerator(createMazePatternBySize(hight, weight));
-  mazeMap = startMaze.slice();
-  mazeContent = getMazeMarkup(mazeMap);
-  if (mazeEl) mazeEl.innerHTML = mazeContent;
-
+export function makeOneStep() {
   const startParam = getStartPosition(mazeMap);
   startPosition = startParam.startPosition;
   startDirection = startParam.startDirection;
-}
-
-export function makeOneStep() {
   if (isEscaped) return;
   const { nextStep, nextDirection, resultLOg } = doStep(
     mazeMap,
@@ -74,6 +42,15 @@ export function makeOneStep() {
     startPosition[0] === 0 ||
     startPosition[1] === 0
   ) {
+    currentWay = currentWay.concat(resultLOg);
+    coordList.push([startPosition[0], startPosition[1]]);
+    crossingsParamArray.push({
+      [startPosition.toString()]: {
+        way: currentWay,
+        from: prev,
+        coord: coordList,
+      },
+    });
     drawShortWay(resultLOg);
     isEscaped = true;
     return;
@@ -112,42 +89,3 @@ export function makeOneStep() {
   mazeContent = getMazeMarkup(mazeMap);
   if (mazeEl) mazeEl.innerHTML = mazeContent;
 }
-
-function drawShortWay(resultLOg: string[]) {
-  currentWay = currentWay.concat(resultLOg);
-  coordList.push([startPosition[0], startPosition[1]]);
-  crossingsParamArray.push({
-    [startPosition.toString()]: {
-      way: currentWay,
-      from: prev,
-      coord: coordList,
-    },
-  });
-  const rightWay = calcShortWay(crossingsParamArray);
-  const trueWayId = setInterval(() => {
-    console.log(trueWayId);
-
-    if (!rightWay.length) {
-      clearInterval(trueWayId);
-      return;
-    }
-    const [y, x] = rightWay.shift() as CoordType;
-    const newRow = startMaze[y].split("");
-    newRow[x] = "*";
-    startMaze[y] = newRow.join("");
-    mazeContent = getMazeMarkup(startMaze);
-    if (mazeEl) mazeEl.innerHTML = mazeContent;
-  }, 25);
-}
-
-const nextStepButton = <HTMLButtonElement>(
-  document.getElementById("nextStepButton")
-);
-nextStepButton.addEventListener("click", () => {
-  nextStepButton.disabled = true;
-
-  while (!isEscaped) {
-    makeOneStep();
-  }
-  nextStepButton.disabled = false;
-});
