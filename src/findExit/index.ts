@@ -4,9 +4,10 @@ import { calcCrossCoord } from "./calcCrossCoord";
 import { drawShortWay } from "./drawShortWay";
 import { CoordType, CrossesItemType, MapType } from "../types";
 import { getStartParams } from "./getStartParams";
+import { getStartPosition } from "./getStartPosition";
 
-let startMaze: MapType;
-let mazeMap: MapType;
+// let startMaze: MapType;
+// let mazeMap: MapType;
 // let startPosition: CoordType;
 // let startDirection: string;
 // let coordList: CoordType[];
@@ -14,25 +15,17 @@ let mazeMap: MapType;
 // let listOfCrosses: CoordType[];
 // let crossingsParamArray: CrossesItemType[];
 // let prev: string;
-let mazeContent: string;
-let isEscaped: boolean;
-getStartParams();
+// let mazeContent: string;
+// let isEscaped: boolean;
+// getStartParams();
 
-export function makeOneStep() {
+export function makeOneStep(mazeMap: MapType, isEscaped: boolean) {
   const startParam = getStartPosition(mazeMap);
-  startPosition = startParam.startPosition;
-  startDirection = startParam.startDirection;
+  const { startPosition, startDirection } = startParam;
   if (isEscaped) return;
   const { nextStep, nextDirection, resultLOg } = doStep(
     mazeMap,
     startDirection,
-    startPosition[0],
-    startPosition[1]
-  );
-  console.log(
-    nextStep[0],
-    nextStep[1],
-    coordList,
     startPosition[0],
     startPosition[1]
   );
