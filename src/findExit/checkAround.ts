@@ -1,32 +1,23 @@
+import { insertNextDirectionInMap } from "./insertNextDirectionInMap";
+
 export function checkAround(y: number, x: number, arr: string[]) {
   const emptyWay: [number, number][] = [];
 
   if (arr[y + 1] && arr[y + 1][x] === " ") {
     emptyWay.push([y + 1, x]);
-    splitter(y + 1, x, "v", arr);
+    insertNextDirectionInMap(y + 1, x, "v", arr);
   }
   if (arr[y - 1] && arr[y - 1][x] === " ") {
     emptyWay.push([y - 1, x]);
-    splitter(y - 1, x, "^", arr);
+    insertNextDirectionInMap(y - 1, x, "^", arr);
   }
   if (arr[y][x + 1] === " ") {
     emptyWay.push([y, x + 1]);
-    splitter(y, x + 1, ">", arr);
+    insertNextDirectionInMap(y, x + 1, ">", arr);
   }
   if (arr[y][x - 1] === " ") {
     emptyWay.push([y, x - 1]);
-    splitter(y, x - 1, "<", arr);
+    insertNextDirectionInMap(y, x - 1, "<", arr);
   }
   return emptyWay;
-}
-
-function splitter(
-  string: number,
-  coloumn: number,
-  nextDirection: string,
-  arr: string[]
-) {
-  const newRow = arr[string].split("");
-  newRow[coloumn] = nextDirection;
-  arr[string] = newRow.join("");
 }

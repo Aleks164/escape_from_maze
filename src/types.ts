@@ -9,16 +9,21 @@ export type CrossesItemType = {
   };
 };
 
-// export type NewMazeParamType = {
-//     startPosition: CoordType;
-//     startDirection: string;
-//     coordList: CoordType[];
-//     currentWay: string[];
-//     listOfCrosses: CoordType[];
-//     crossingsParamArray: CrossesItemType[];
-//     prev: string;
-//     isEscaped: boolean;
-// };
+export type StepParamType = {
+  startPosition: CoordType;
+  startDirection: string;
+  coordList: CoordType[];
+  currentWay: string[];
+  listOfCrosses: CoordType[];
+  crossingsParamArray: CrossesItemType[];
+  prev: string;
+  isEscaped: boolean;
+};
+
+export type StartParamType = Omit<
+  StepParamType,
+  "startPosition" | "startDirection" | "isEscaped"
+>;
 
 export type NewMazeParamType = {
   newMaze: MapType;

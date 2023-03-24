@@ -1,8 +1,11 @@
 import { makeOneStep } from "./findExit";
 import { drawNewMaze } from "./findExit/drawNewMaze";
+import { drawShortWay } from "./findExit/drawShortWay";
+import { getMazeMarkup } from "./findExit/getMazeMarkup";
 import { getNewMazeParams } from "./findExit/getNewMazeParams";
-import { createMazePatternBySize } from "./generateMaze/createMazePatternBySize";
-import { mazeGenerator } from "./generateMaze/mazeGenerator";
+import { getStartParams } from "./findExit/getStartParams";
+import { getStartPosition } from "./findExit/getStartPosition";
+import { StepParamType } from "./types";
 import "./style.css";
 
 const inputHeigth = <HTMLInputElement>document.getElementById("heigth");
@@ -32,9 +35,25 @@ generateNewMazeButton.addEventListener("click", () => {
 
 nextStepButton.addEventListener("click", () => {
   nextStepButton.disabled = true;
-  let isEscaped = false;
+  const startParam = getStartPosition(mazeMap);
+  const stepParam = getStartParams();
+  const isEscaped = false;
+  let everyStepParam: StepParamType = {
+    ...startParam,
+    ...stepParam,
+    isEscaped,
+  };
   while (!isEscaped) {
-    isEscaped = makeOneStep(mazeMap);
+    console.log(everyStepParam.isEscaped);
+
+    everyStepParam = makeOneStep(mazeMap, everyStepParam);
+    const curStepMazeMarkup = getMazeMarkup(mazeMap);
+    if (mazeContainer) mazeContainer.innerHTML = curStepMazeMarkup;
+  }
+  if (isEscaped) {
+    const { crossingsParamArray } = everyStepParam;
+    const startMazeMap = newMaze.slice();
+    drawShortWay(crossingsParamArray, mazeContainer, startMazeMap);
   }
   nextStepButton.disabled = false;
 });

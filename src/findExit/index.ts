@@ -1,10 +1,6 @@
 import { doStep } from "./doStep";
-import { getMazeMarkup } from "./getMazeMarkup";
 import { calcCrossCoord } from "./calcCrossCoord";
-import { drawShortWay } from "./drawShortWay";
-import { CoordType, CrossesItemType, MapType } from "../types";
-import { getStartParams } from "./getStartParams";
-import { getStartPosition } from "./getStartPosition";
+import { CoordType, MapType, StepParamType } from "../types";
 
 // let startMaze: MapType;
 // let mazeMap: MapType;
@@ -19,10 +15,31 @@ import { getStartPosition } from "./getStartPosition";
 // let isEscaped: boolean;
 // getStartParams();
 
-export function makeOneStep(mazeMap: MapType, isEscaped: boolean) {
-  const startParam = getStartPosition(mazeMap);
-  const { startPosition, startDirection } = startParam;
-  if (isEscaped) return;
+export function makeOneStep(
+  mazeMap: MapType,
+  currentStepParams: StepParamType
+) {
+  let {
+    startPosition,
+    startDirection,
+    coordList,
+    currentWay,
+    listOfCrosses,
+    prev,
+    isEscaped,
+  } = currentStepParams;
+  const { crossingsParamArray } = currentStepParams;
+  if (isEscaped)
+    return {
+      startPosition,
+      startDirection,
+      coordList,
+      currentWay,
+      listOfCrosses,
+      crossingsParamArray,
+      prev,
+      isEscaped,
+    };
   const { nextStep, nextDirection, resultLOg } = doStep(
     mazeMap,
     startDirection,
@@ -44,9 +61,18 @@ export function makeOneStep(mazeMap: MapType, isEscaped: boolean) {
         coord: coordList,
       },
     });
-    drawShortWay(resultLOg);
+
     isEscaped = true;
-    return;
+    return {
+      startPosition,
+      startDirection,
+      coordList,
+      currentWay,
+      listOfCrosses,
+      crossingsParamArray,
+      prev,
+      isEscaped,
+    };
   }
   if (nextStep.length > 1 && typeof nextStep !== "string") {
     coordList.push([startPosition[0], startPosition[1]]);
@@ -79,6 +105,14 @@ export function makeOneStep(mazeMap: MapType, isEscaped: boolean) {
     }
     currentWay = [startDirection];
   }
-  mazeContent = getMazeMarkup(mazeMap);
-  if (mazeEl) mazeEl.innerHTML = mazeContent;
+  return {
+    startPosition,
+    startDirection,
+    coordList,
+    currentWay,
+    listOfCrosses,
+    crossingsParamArray,
+    prev,
+    isEscaped,
+  };
 }

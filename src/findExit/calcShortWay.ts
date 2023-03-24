@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable prefer-destructuring */
-import { CrossesItemType } from "./index";
+import { CrossesItemType } from "../types";
 
 export function calcShortWay(crossesList: CrossesItemType[]) {
   let lastStep = crossesList.pop() as CrossesItemType;
@@ -9,9 +9,10 @@ export function calcShortWay(crossesList: CrossesItemType[]) {
   let prevStepLog = lastStep[lastStepKey].coord;
   const resultLog = [...prevStepLog];
   while (prevStepName) {
-    lastStep = crossesList.find(
-      (item) => item[prevStepName!]
-    ) as CrossesItemType;
+    lastStep = crossesList.find((item) => {
+      if (!prevStepName) return false;
+      return item[prevStepName];
+    }) as CrossesItemType;
     lastStepKey = Object.keys(lastStep)[0];
     prevStepName = lastStep[lastStepKey].from;
     prevStepLog = lastStep[lastStepKey].coord;
