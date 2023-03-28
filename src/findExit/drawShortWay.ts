@@ -9,8 +9,6 @@ export function drawShortWay(
 ) {
   const rightWay = calcShortWay(crossingsParamArray);
   const trueWayId = setInterval(() => {
-    console.log(trueWayId);
-
     if (!rightWay.length) {
       clearInterval(trueWayId);
       return;

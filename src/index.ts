@@ -10,31 +10,34 @@ import "./style.css";
 
 const inputHeigth = <HTMLInputElement>document.getElementById("heigth");
 const inputWidth = <HTMLInputElement>document.getElementById("width");
-const nextStepButton = <HTMLButtonElement>(
-  document.getElementById("nextStepButton")
-);
+const startButton = <HTMLButtonElement>document.getElementById("start");
 const generateNewMazeButton = <HTMLButtonElement>(
   document.getElementById("generateNewMaze")
 );
 const currenSizeButton = <HTMLDivElement>document.getElementById("currenSize");
 const mazeContainer = <HTMLDivElement>document.getElementById("maze");
 
-const height = +inputHeigth.value;
-const width = +inputWidth.value;
+let height = +inputHeigth.value;
+let width = +inputWidth.value;
 const { newMaze, mazeMarkup } = getNewMazeParams(height, width);
-let mazeMap = newMaze;
+let mazeMap = window.structuredClone(newMaze);
 if (mazeContainer) mazeContainer.innerHTML = mazeMarkup;
 
 currenSizeButton.innerHTML = `height: ${height} x width: ${width}`;
 
 generateNewMazeButton.addEventListener("click", () => {
+  height = +inputHeigth.value;
+  width = +inputWidth.value;
+  currenSizeButton.innerHTML = `height: ${height} x width: ${width}`;
   const mazeParams = getNewMazeParams(height, width);
   drawNewMaze(mazeContainer, mazeParams.mazeMarkup);
-  mazeMap = mazeParams.newMaze;
+  mazeMap = window.structuredClone(mazeParams.newMaze);
+  startButton.disabled = false;
 });
 
-nextStepButton.addEventListener("click", () => {
-  nextStepButton.disabled = true;
+startButton.addEventListener("click", () => {
+  startButton.disabled = true;
+  generateNewMazeButton.disabled = true;
   const startParam = getStartPosition(mazeMap);
   const stepParam = getStartParams();
   const isEscaped = false;
@@ -43,17 +46,15 @@ nextStepButton.addEventListener("click", () => {
     ...stepParam,
     isEscaped,
   };
-  while (!isEscaped) {
-    console.log(everyStepParam.isEscaped);
-
+  while (!everyStepParam.isEscaped) {
     everyStepParam = makeOneStep(mazeMap, everyStepParam);
     const curStepMazeMarkup = getMazeMarkup(mazeMap);
     if (mazeContainer) mazeContainer.innerHTML = curStepMazeMarkup;
   }
-  if (isEscaped) {
+  if (everyStepParam.isEscaped) {
     const { crossingsParamArray } = everyStepParam;
-    const startMazeMap = newMaze.slice();
+    const startMazeMap = window.structuredClone(mazeMap);
     drawShortWay(crossingsParamArray, mazeContainer, startMazeMap);
+    generateNewMazeButton.disabled = false;
   }
-  nextStepButton.disabled = false;
 });
