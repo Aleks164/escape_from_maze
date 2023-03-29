@@ -1,5 +1,6 @@
 export type CoordType = [number, number];
 export type MapType = string[];
+export type DirectionType = ">" | "<" | "^" | "v";
 
 export type CrossesItemType = {
   [key: string]: {
@@ -11,7 +12,7 @@ export type CrossesItemType = {
 
 export type StepParamType = {
   startPosition: CoordType;
-  startDirection: string;
+  startDirection: DirectionType;
   coordList: CoordType[];
   currentWay: string[];
   listOfCrosses: CoordType[];

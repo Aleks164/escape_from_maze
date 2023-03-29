@@ -1,3 +1,4 @@
+import { DirectionType } from "../types";
 import { checkAround } from "./checkAround";
 import { getNextStepDirection } from "./getNextStepDirection";
 
@@ -11,7 +12,7 @@ export function doStep(
   if (!check.length)
     return {
       nextStep: [],
-      nextDirection: "",
+      nextDirection: ">" as DirectionType,
       resultLOg: [],
     };
   const [nextY, nextX] = check[0];

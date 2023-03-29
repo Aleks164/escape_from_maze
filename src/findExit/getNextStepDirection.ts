@@ -1,10 +1,12 @@
+import { DirectionType } from "../types";
+
 export function getNextStepDirection(
   curPosition: [number, number],
   NextPosition: [number, number],
   curDirection: string
 ) {
   const resultLOg: string[] = [];
-  let nextDirection = "";
+  let nextDirection: DirectionType = ">";
   if (curPosition[0] > NextPosition[0]) nextDirection = "^"; // top
   if (curPosition[0] < NextPosition[0]) nextDirection = "v"; // bottom
   if (curPosition[1] > NextPosition[1]) nextDirection = "<"; // left

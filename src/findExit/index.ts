@@ -1,19 +1,6 @@
 import { doStep } from "./doStep";
 import { calcCrossCoord } from "./calcCrossCoord";
-import { CoordType, MapType, StepParamType } from "../types";
-
-// let startMaze: MapType;
-// let mazeMap: MapType;
-// let startPosition: CoordType;
-// let startDirection: string;
-// let coordList: CoordType[];
-// let currentWay: string[];
-// let listOfCrosses: CoordType[];
-// let crossingsParamArray: CrossesItemType[];
-// let prev: string;
-// let mazeContent: string;
-// let isEscaped: boolean;
-// getStartParams();
+import { CoordType, DirectionType, MapType, StepParamType } from "../types";
 
 export function makeOneStep(
   mazeMap: MapType,
@@ -100,7 +87,7 @@ export function makeOneStep(
     coordList = [];
     if (crossing) {
       startPosition = crossing;
-      startDirection = mazeMap[crossing[0]][crossing[1]];
+      startDirection = mazeMap[crossing[0]][crossing[1]] as DirectionType;
       prev = calcCrossCoord(startDirection, startPosition).toString();
     }
     currentWay = [startDirection];

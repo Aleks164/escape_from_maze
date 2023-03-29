@@ -1,5 +1,7 @@
-export function calcCrossCoord(direction: string, coord: [number, number]) {
-  let resultCoord: [number, number][] = [];
+import { CoordType, DirectionType } from "../types";
+
+export function calcCrossCoord(direction: DirectionType, coord: CoordType) {
+  let resultCoord: CoordType[] = [];
   const x = coord[1];
   const y = coord[0];
   if (direction === ">") {
