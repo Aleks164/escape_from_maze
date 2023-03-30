@@ -12,7 +12,7 @@ export function doStep(
   if (!check.length)
     return {
       nextStep: [],
-      nextDirection: ">" as DirectionType,
+      nextDirection: "" as DirectionType,
       resultLOg: [],
     };
   const [nextY, nextX] = check[0];
