@@ -1,14 +1,14 @@
-import { DirectionType } from "../types";
+import { DirectionType, MapType } from "../types";
 import { checkAround } from "./checkAround";
 import { getNextStepDirection } from "./getNextStepDirection";
 
 export function doStep(
-  arr: string[],
-  curDirecation: string,
+  mazeMap: MapType,
+  curDirecation: DirectionType,
   y: number,
   x: number
 ) {
-  const check = checkAround(y, x, arr);
+  const check = checkAround(y, x, mazeMap);
   if (!check.length)
     return {
       nextStep: [],

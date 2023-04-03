@@ -1,6 +1,8 @@
+import { DirectionType } from "../types";
+
 export function mekeRightDirection(
-  curDirection: string,
-  nextDirection: string
+  curDirection: DirectionType,
+  nextDirection: DirectionType
 ) {
   const turmLog = [];
   if (curDirection !== nextDirection) {

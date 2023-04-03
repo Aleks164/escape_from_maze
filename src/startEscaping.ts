@@ -26,7 +26,11 @@ export function startEscaping(
   if (everyStepParam.isEscaped) {
     const { crossingsParamArray } = everyStepParam;
     const startMazeMap = window.structuredClone(mazeMap);
-    drawShortWay(crossingsParamArray, mazeContainer, startMazeMap);
-    generateNewMazeButton.disabled = false;
+    drawShortWay(
+      crossingsParamArray,
+      mazeContainer,
+      startMazeMap,
+      generateNewMazeButton
+    );
   }
 }

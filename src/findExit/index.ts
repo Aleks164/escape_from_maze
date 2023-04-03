@@ -16,17 +16,7 @@ export function makeOneStep(
     isEscaped,
   } = currentStepParams;
   const { crossingsParamArray } = currentStepParams;
-  if (isEscaped)
-    return {
-      startPosition,
-      startDirection,
-      coordList,
-      currentWay,
-      listOfCrosses,
-      crossingsParamArray,
-      prev,
-      isEscaped,
-    };
+  if (isEscaped) return currentStepParams;
   const { nextStep, nextDirection, resultLOg } = doStep(
     mazeMap,
     startDirection,
@@ -48,16 +38,12 @@ export function makeOneStep(
         coord: coordList,
       },
     });
-
     isEscaped = true;
     return {
-      startPosition,
-      startDirection,
+      ...currentStepParams,
       coordList,
       currentWay,
-      listOfCrosses,
       crossingsParamArray,
-      prev,
       isEscaped,
     };
   }

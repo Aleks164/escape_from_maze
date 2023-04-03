@@ -1,9 +1,9 @@
-import { DirectionType } from "../types";
+import { CoordType, DirectionType } from "../types";
 
 export function getNextStepDirection(
-  curPosition: [number, number],
-  NextPosition: [number, number],
-  curDirection: string
+  curPosition: CoordType,
+  NextPosition: CoordType,
+  curDirection: DirectionType
 ) {
   const resultLOg: string[] = [];
   let nextDirection: DirectionType = ">";

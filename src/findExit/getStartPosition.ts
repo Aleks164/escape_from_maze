@@ -1,20 +1,19 @@
-import { CoordType, DirectionType } from "../types";
+import { CoordType, DirectionType, MapType } from "../types";
 
-export function getStartPosition(arr: string[]) {
+export function getStartPosition(mazeMap: MapType) {
   const startVariants = ["<", "^", ">", "v"];
   let startPosition: CoordType = [0, 0];
   let startDirection = "" as DirectionType;
-  for (let y = 0; y < arr.length; y++) {
-    for (let x = 0; x < arr[y].length; x++) {
-      if (startVariants.indexOf(arr[y][x]) >= 0) {
+  for (let y = 0; y < mazeMap.length; y++) {
+    for (let x = 0; x < mazeMap[y].length; x++) {
+      if (startVariants.indexOf(mazeMap[y][x]) >= 0) {
         startPosition = [y, x];
-        startDirection = arr[y][x] as DirectionType;
+        startDirection = mazeMap[y][x] as DirectionType;
         break;
       }
       if (startDirection) break;
     }
   }
-
   return {
     startPosition,
     startDirection,

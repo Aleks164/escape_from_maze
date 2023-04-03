@@ -1,23 +1,24 @@
+import { CoordType, MapType } from "../types";
 import { insertNextDirectionInMap } from "./insertNextDirectionInMap";
 
-export function checkAround(y: number, x: number, arr: string[]) {
-  const emptyWay: [number, number][] = [];
+export function checkAround(y: number, x: number, mazeMap: MapType) {
+  const emptyWay: CoordType[] = [];
 
-  if (arr[y + 1] && arr[y + 1][x] === " ") {
+  if (mazeMap[y + 1] && mazeMap[y + 1][x] === " ") {
     emptyWay.push([y + 1, x]);
-    insertNextDirectionInMap(y + 1, x, "v", arr);
+    insertNextDirectionInMap(y + 1, x, "v", mazeMap);
   }
-  if (arr[y - 1] && arr[y - 1][x] === " ") {
+  if (mazeMap[y - 1] && mazeMap[y - 1][x] === " ") {
     emptyWay.push([y - 1, x]);
-    insertNextDirectionInMap(y - 1, x, "^", arr);
+    insertNextDirectionInMap(y - 1, x, "^", mazeMap);
   }
-  if (arr[y][x + 1] === " ") {
+  if (mazeMap[y][x + 1] === " ") {
     emptyWay.push([y, x + 1]);
-    insertNextDirectionInMap(y, x + 1, ">", arr);
+    insertNextDirectionInMap(y, x + 1, ">", mazeMap);
   }
-  if (arr[y][x - 1] === " ") {
+  if (mazeMap[y][x - 1] === " ") {
     emptyWay.push([y, x - 1]);
-    insertNextDirectionInMap(y, x - 1, "<", arr);
+    insertNextDirectionInMap(y, x - 1, "<", mazeMap);
   }
   return emptyWay;
 }

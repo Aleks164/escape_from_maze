@@ -5,12 +5,14 @@ import { CrossesItemType, MapType, CoordType } from "../types";
 export function drawShortWay(
   crossingsParamArray: CrossesItemType[],
   mazeEl: HTMLElement | null,
-  startMaze: MapType
+  startMaze: MapType,
+  generateNewMazeButton: HTMLButtonElement
 ) {
   const rightWay = calcShortWay(crossingsParamArray);
   const trueWayId = setInterval(() => {
     if (!rightWay.length) {
       clearInterval(trueWayId);
+      generateNewMazeButton.disabled = false;
       return;
     }
     const [y, x] = rightWay.shift() as CoordType;

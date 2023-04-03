@@ -2,9 +2,10 @@ import { brakeNaighborWall } from "./breakNaighborWall";
 import { getNextCellCoord } from "./getNextCellCoord";
 import { getEmptyNeighbor } from "./getEmptyNeighbor";
 import { getRandomBorderPosition } from "./getRandomBorderPosition";
+import { CoordType } from "../types";
 
 export function mazeGenerator(arr: string[][]) {
-  const startCell: [number, number] = [1, 1];
+  const startCell: CoordType = [1, 1];
   let curCell = startCell;
   const cellsWithEmptyNeighborStack = [startCell];
 
@@ -12,7 +13,7 @@ export function mazeGenerator(arr: string[][]) {
     arr[curCell[0]][curCell[1]] = "*";
     const emptyNeighbors = getEmptyNeighbor(arr, curCell);
     if (emptyNeighbors.length === 0) {
-      curCell = cellsWithEmptyNeighborStack.shift() as [number, number];
+      curCell = cellsWithEmptyNeighborStack.shift() as CoordType;
       // eslint-disable-next-line no-continue
       continue;
     } else if (emptyNeighbors.length > 1) {
