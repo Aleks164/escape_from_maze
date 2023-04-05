@@ -1,4 +1,4 @@
-import { CoordType, DirectionType, MapType } from "../types";
+import { CoordType, DirectionType, MapType } from "../../types";
 
 export function getStartPosition(mazeMap: MapType) {
   const startVariants = ["<", "^", ">", "v"];

@@ -3,7 +3,7 @@ import { drawShortWay } from "./findExit/drawShortWay";
 import { getMazeMarkup } from "./findExit/getMazeMarkup";
 import { getStartParams } from "./findExit/getStartParams";
 import { getStartPosition } from "./findExit/getStartPosition";
-import { MapType, StepParamType } from "./types";
+import { MapType, StepParamType } from "../types";
 
 export function startEscaping(
   mazeMap: MapType,

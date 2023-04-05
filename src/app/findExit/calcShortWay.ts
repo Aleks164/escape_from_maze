@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable prefer-destructuring */
-import { CrossesItemType } from "../types";
+import { CrossesItemType } from "../../types";
 
 export function calcShortWay(crossesList: CrossesItemType[]) {
   let lastStep = crossesList.pop() as CrossesItemType;

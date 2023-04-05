@@ -1,6 +1,6 @@
 import { getMazeMarkup } from "./getMazeMarkup";
 import { calcShortWay } from "./calcShortWay";
-import { CrossesItemType, MapType, CoordType } from "../types";
+import { CrossesItemType, MapType, CoordType } from "../../types";
 
 export function drawShortWay(
   crossingsParamArray: CrossesItemType[],

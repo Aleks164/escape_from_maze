@@ -1,4 +1,4 @@
-import { CoordType } from "../types";
+import { CoordType } from "../../types";
 
 export function getNextCellCoord(variants: CoordType[]) {
   const variantsLength = variants.length;

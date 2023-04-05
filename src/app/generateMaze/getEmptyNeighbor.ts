@@ -1,4 +1,6 @@
-export function getEmptyNeighbor(arr: string[][], curCell: [number, number]) {
+import { CoordType } from "../types";
+
+export function getEmptyNeighbor(arr: string[][], curCell: CoordType) {
   const [y, x] = curCell;
   const result: [number, number][] = [];
   if (

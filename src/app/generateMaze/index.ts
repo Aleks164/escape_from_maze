@@ -2,7 +2,7 @@ import { brakeNaighborWall } from "./breakNaighborWall";
 import { getNextCellCoord } from "./getNextCellCoord";
 import { getEmptyNeighbor } from "./getEmptyNeighbor";
 import { getRandomBorderPosition } from "./getRandomBorderPosition";
-import { CoordType } from "../types";
+import { CoordType } from "../../types";
 
 export function mazeGenerator(arr: string[][]) {
   const startCell: CoordType = [1, 1];

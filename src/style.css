@@ -45,8 +45,10 @@ body {
 }
 
 .steps {
-  color: rgb(255, 255, 255);
+  color: rgb(24, 24, 24);
+  background-color: rgb(24, 24, 24);
 }
+
 .empty {
   background-color: rgb(24, 24, 24);
 }

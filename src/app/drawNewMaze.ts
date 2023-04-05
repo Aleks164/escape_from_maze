@@ -1,5 +1,5 @@
 import { getNewMazeParams } from "./findExit/getNewMazeParams";
-import { MapType } from "./types";
+import { MapType } from "../types";
 
 export function drawNewMaze(mazeContainer: HTMLDivElement) {
   const inputHeigth = <HTMLInputElement>document.getElementById("heigth");

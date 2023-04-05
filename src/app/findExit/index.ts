@@ -1,6 +1,6 @@
 import { doStep } from "./doStep";
 import { calcCrossCoord } from "./calcCrossCoord";
-import { CoordType, DirectionType, MapType, StepParamType } from "../types";
+import { CoordType, DirectionType, MapType, StepParamType } from "../../types";
 
 export function makeOneStep(
   mazeMap: MapType,

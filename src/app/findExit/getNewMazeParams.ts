@@ -1,6 +1,6 @@
 import { createMazePatternBySize } from "../generateMaze/createMazePatternBySize";
 import { mazeGenerator } from "../generateMaze";
-import { NewMazeParamType } from "../types";
+import { NewMazeParamType } from "../../types";
 import { getMazeMarkup } from "./getMazeMarkup";
 
 export function getNewMazeParams(

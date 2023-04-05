@@ -1,4 +1,4 @@
-import { CoordType, MapType } from "../types";
+import { CoordType, MapType } from "../../types";
 import { insertNextDirectionInMap } from "./insertNextDirectionInMap";
 
 export function checkAround(y: number, x: number, mazeMap: MapType) {

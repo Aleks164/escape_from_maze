@@ -1,4 +1,4 @@
-import { StartParamType } from "../types";
+import { StartParamType } from "../../types";
 
 export function getStartParams(): StartParamType;
 

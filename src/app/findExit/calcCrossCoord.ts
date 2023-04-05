@@ -1,4 +1,4 @@
-import { CoordType, DirectionType } from "../types";
+import { CoordType, DirectionType } from "../../types";
 
 export function calcCrossCoord(direction: DirectionType, coord: CoordType) {
   let resultCoord: CoordType[] = [];

@@ -1,4 +1,4 @@
-import { DirectionType, MapType } from "../types";
+import { DirectionType, MapType } from "../../types";
 import { checkAround } from "./checkAround";
 import { getNextStepDirection } from "./getNextStepDirection";
 
