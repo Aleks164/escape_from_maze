@@ -8,12 +8,11 @@ export function mazeGenerator(arr: string[][]) {
   const startCell: CoordType = [1, 1];
   let curCell = startCell;
   const cellsWithEmptyNeighborStack = [startCell];
-
   while (cellsWithEmptyNeighborStack.length) {
     arr[curCell[0]][curCell[1]] = "*";
     const emptyNeighbors = getEmptyNeighbor(arr, curCell);
     if (emptyNeighbors.length === 0) {
-      curCell = cellsWithEmptyNeighborStack.shift() as CoordType;
+      curCell = cellsWithEmptyNeighborStack.shift()!;
       // eslint-disable-next-line no-continue
       continue;
     } else if (emptyNeighbors.length > 1) {

@@ -1,6 +1,6 @@
 import { doStep } from "./doStep";
 import { calcCrossCoord } from "./calcCrossCoord";
-import { CoordType, DirectionType, MapType, StepParamType } from "../../types";
+import { DirectionType, MapType, StepParamType } from "../../types";
 
 export function makeOneStep(
   mazeMap: MapType,
@@ -66,7 +66,7 @@ export function makeOneStep(
 
   if (nextStep.length) {
     coordList.push([startPosition[0], startPosition[1]]);
-    startPosition = nextStep[0] as CoordType;
+    [startPosition] = nextStep;
     startDirection = nextDirection;
   } else {
     const crossing = listOfCrosses.shift();

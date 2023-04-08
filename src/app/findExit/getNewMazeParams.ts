@@ -1,6 +1,6 @@
 import { createMazePatternBySize } from "../generateMaze/createMazePatternBySize";
 import { mazeGenerator } from "../generateMaze";
-import { NewMazeParamType } from "../../types";
+import { MapType, NewMazeParamType } from "../../types";
 import { getMazeMarkup } from "./getMazeMarkup";
 
 export function getNewMazeParams(
@@ -8,5 +8,7 @@ export function getNewMazeParams(
   wight: number
 ): NewMazeParamType {
   const startMaze = mazeGenerator(createMazePatternBySize(height, wight));
-  return { newMaze: startMaze, mazeMarkup: getMazeMarkup(startMaze) };
+
+  const newMaze: MapType = self.structuredClone(startMaze);
+  return { newMaze, mazeMarkup: getMazeMarkup(startMaze) };
 }

@@ -30,5 +30,7 @@ module.exports = {
     "class-methods-use-this": "warn",
     "no-new": "warn",
     "jest/no-conditional-expect": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "warn",
   },
 };
