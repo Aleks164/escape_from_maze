@@ -30,3 +30,26 @@ export type NewMazeParamType = {
   newMaze: MapType;
   mazeMarkup: string;
 };
+
+type PostMessageParamsType = {
+  mazeParams: {
+    height: number;
+    width: number;
+  };
+  key: string;
+  type: string;
+};
+
+type GetMessageParamsType = {
+  newMaze: MapType;
+  mazeMarkup: string;
+  crossingsParamArray: CrossesItemType[];
+};
+
+export type OnPostMessageParamsType = {
+  data: PostMessageParamsType;
+};
+
+export type OnGetMessageParamsType = {
+  data: GetMessageParamsType & PostMessageParamsType;
+};

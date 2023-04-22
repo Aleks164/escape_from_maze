@@ -1,61 +1,42 @@
-import { drawNewMaze } from "./app/drawNewMaze";
 import { getMazeParams } from "./app/getMazeParams";
-import { startEscaping } from "./app/startEscaping";
 import { drawSkeleton } from "./app/drawSkeleton";
-import { drawMazeParams } from "./app/drawMazeParams";
 import { MESSAGE_TYPES } from "./app/constants";
+import { OnGetMessageParamsType } from "./types";
+import { onMessageReducer } from "./app/onMessageReducer";
 import "./style.css";
 
 const startButton = <HTMLButtonElement>document.getElementById("start");
 const generateNewMazeButton = <HTMLButtonElement>(
   document.getElementById("generateNewMaze")
 );
-export const mazeContainer = <HTMLDivElement>document.getElementById("maze");
-
+const mazeContainer = <HTMLDivElement>document.getElementById("maze");
 const worker = new Worker(new URL("./mazeGeneratorWW.ts", import.meta.url));
+let key = Date.now().toString();
 
-worker.onmessage = ({ data: { newMaze, mazeMarkup, type } }) => {
-  console.log(newMaze, mazeMarkup, type);
-
-  switch (type) {
-    case MESSAGE_TYPES.DRAW_NEW_MAZE: {
-      const { height, width } = getMazeParams();
-      drawMazeParams(height, width);
-      drawNewMaze(mazeContainer, mazeMarkup);
-      startButton.disabled = false;
-      break;
-    }
-    case MESSAGE_TYPES.DRAW_ESCAPING: {
-      // startButton.disabled = true;
-      // generateNewMazeButton.disabled = true;
-      startEscaping(newMaze, mazeContainer, generateNewMazeButton);
-      break;
-    }
-    default: {
-      break;
-    }
-  }
-};
+worker.onmessage = (message: OnGetMessageParamsType) =>
+  onMessageReducer(message, mazeContainer, generateNewMazeButton, startButton);
 
 drawSkeleton();
 
 worker.postMessage({
   mazeParams: getMazeParams(),
   type: MESSAGE_TYPES.DRAW_NEW_MAZE,
+  key,
 });
 
 generateNewMazeButton.addEventListener("click", () => {
+  key = Date.now().toString();
+  drawSkeleton();
   worker.postMessage({
     mazeParams: getMazeParams(),
     type: MESSAGE_TYPES.DRAW_NEW_MAZE,
+    key,
   });
-  // drawNewMaze(mazeContainer, mazeMarkup);
-  // startButton.disabled = false;
 });
 
 startButton.addEventListener("click", () => {
   startButton.disabled = true;
   generateNewMazeButton.disabled = true;
-  // startEscaping(newMaze, mazeContainer, generateNewMazeButton);
-  worker.postMessage({ type: MESSAGE_TYPES.DRAW_ESCAPING });
+  drawSkeleton();
+  worker.postMessage({ type: MESSAGE_TYPES.DRAW_ESCAPING, key });
 });
